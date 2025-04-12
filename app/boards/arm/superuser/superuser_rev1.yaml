@@ -1,0 +1,14 @@
+identifier: superuser_rev1
+name: SUPERUSERREV1
+type: keyboard
+arch: arm
+toolchain:
+  - zephyr
+  - gnuarmemb
+  - xtools
+ram: 40
+supported:
+  - gpio
+  - usb_device
+  - kscan
+  - usart
