@@ -19,7 +19,7 @@
         zephyr,flash = &flash0;
         zephyr,console = &usart2;
         zephyr,shell-uart = &usart2;
-        /* zephyr,code-partition = &code_partition; */
+        /* zephyr,code-partition = &slot0_partition; */
         zmk,kscan = &kscan0;
         zmk,physical-layout = &physical_layout0;
         /* zmk,settings-storage = &storage_partition; */
@@ -188,11 +188,41 @@ zephyr_udc0: &usbotg_fs {
      * For more information, see:
      * http://docs.zephyrproject.org/latest/guides/dts/index.html#flash-partitions
      */
-    partitions {
-        compatible = "fixed-partitions";
-        #address-cells = <1>;
-        #size-cells = <1>;
-    };
+     partitions {
+         compatible = "fixed-partitions";
+         #address-cells = <1>;
+         #size-cells = <1>;
+
+         /* boot_partition: partition@0 { */
+         /*     label = "mcuboot"; */
+         /*     reg = <0x00000000 DT_SIZE_K(32)>; */
+         /*     read-only; */
+         /* }; */
+
+         /*
+         * The flash starting at offset 0x00008000 and ending at
+         * offset 0x0001ffff (sectors 2 through 4) is reserved for
+         * use by the application.
+         */
+
+         /* storage_partition: partition@8000 { */
+         /*     label = "storage"; */
+         /*     reg = <0x00008000 DT_SIZE_K(32)>; */
+         /* }; */
+
+         /* slot0_partition: partition@20000 { */
+         /*     label = "image-0"; */
+         /*     reg = <0x00020000 DT_SIZE_K(128)>; */
+         /* }; */
+         /* slot1_partition: partition@40000 { */
+         /*     label = "image-1"; */
+         /*     reg = <0x00040000 DT_SIZE_K(128)>; */
+         /* }; */
+         /* scratch_partition: partition@60000 { */
+         /*     label = "image-scratch"; */
+         /*     reg = <0x00060000 DT_SIZE_K(128)>; */
+         /* }; */
+     };
 };
 
 &usart2 {

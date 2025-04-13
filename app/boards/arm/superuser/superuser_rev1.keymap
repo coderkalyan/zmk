@@ -7,17 +7,70 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
+/* &mt { */
+/*     flavor = "tap-preferred"; */
+/* }; */
+
 / {
+    behaviors {
+        mt0: mt0 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <125>;
+            bindings = <&kp>, <&kp>;
+        };
+
+        td0: td0 {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&sl 1>, <&to 1>;
+        };
+
+        rarrow: rarrow {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_tap &kp EQUAL &kp GT>;
+        };
+
+        dslash: dslash {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_tap &kp FSLH &kp FSLH>;
+        };
+
+        ddot: ddot {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_tap &kp DOT &kp DOT>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
+        // layer 0
         default_layer {
             bindings = <
-                &bootloader &kp GRAVE &kp N1 &kp N2   &kp N3    &kp N4 &kp N5   &kp N6   &kp N7    &kp N8    &kp N9   &kp N0    &kp MINUS &kp EQUAL &kp BSLH &kp DEL &bootloader
-                &kp F1   &kp TAB   &kp Q  &kp W    &kp E     &kp R  &kp T    &kp Y    &kp U     &kp I     &kp O    &kp P     &kp LBKT  &kp RBKT  &kp BSPC &kp INS
-                &kp F2   &kp ESC   &kp A  &kp S    &kp D     &kp F  &kp G    &kp H    &kp J     &kp K     &kp L    &kp SEMI  &kp APOS  &kp ENTER &kp PG_UP
-                &kp F3   &sk LSHFT &kp Z  &kp X    &kp C     &kp V  &kp B    &kp N    &kp M     &kp COMMA &kp DOT  &kp SLASH &sk RSHFT &kp UP    &kp PG_DN
-                &kp F4   &kp LCTRL &mo 1  &kp LALT &kp SPACE        &kp LGUI          &kp SPACE           &kp RALT &kp RCTRL &kp LEFT  &kp DOWN  &kp RIGHT
+                &bootloader &kp GRAVE &kp N1 &kp N2   &kp N3    &kp N4 &kp N5   &kp N6   &kp N7    &kp N8    &kp N9   &kp N0    &kp MINUS &kp EQUAL &kp BSLH &kp PSCRN &none
+                &kp F1      &kp TAB   &kp Q  &kp W    &kp E     &kp R  &kp T    &kp Y    &kp U     &kp I     &kp O    &kp P     &kp LBKT  &kp RBKT  &kp BSPC &kp INS
+                &kp F2      &kp ESC   &kp A  &kp S    &kp D     &kp F  &kp G    &kp H    &kp J     &kp K     &kp L    &kp SEMI  &kp APOS  &kp ENTER &kp PG_UP
+                &kp F3      &sk LSHFT &kp Z  &kp X    &kp C     &kp V  &kp B    &kp N    &kp M     &kp COMMA &kp DOT  &kp SLASH &sk RSHFT &kp UP    &kp PG_DN
+                &kp F4      &kp LCTRL &mo 4  &kp LALT &mt0 LGUI SPACE  &td0              &mt0 RGUI SPACE     &kp RALT &kp RCTRL &kp LEFT  &kp DOWN  &kp RIGHT
+            >;
+        };
+
+        // layer 1
+        symbols {
+            bindings = <
+                &bootloader &kp GRAVE &kp N1    &kp N2    &kp N3    &kp N4   &kp N5   &kp N6    &kp N7    &kp N8    &kp N9   &kp N0    &trans    &trans    &kp BSLH &kp PSCRN &none
+                &kp F1      &kp TAB   &kp HASH  &kp LT    &kp GT    &kp DQT  &ddot    &kp AMPS  &rarrow   &kp LBKT  &kp RBKT &kp PRCNT &trans    &trans    &kp BSPC &kp INS
+                &kp F2      &to 0     &kp EXCL  &kp MINUS &kp PLUS  &kp EQL  &kp DOT  &kp PIPE  &kp COLON &kp LPAR  &kp RPAR &kp QMARK &trans    &trans    &kp PG_UP
+                &kp F3      &sk LSHFT &kp CARET &kp FSLH  &kp ASTRK &dslash  &kp APOS &kp TILDE &kp AT    &kp LBRC  &kp RBRC &kp DLLR  &trans    &trans    &kp PG_DN
+                &kp F4      &kp LCTRL &mo 4     &kp LALT  &kp SPACE          &none              &kp SPACE           &kp RALT &kp RCTRL &trans    &trans    &kp RIGHT
             >;
         };
 
